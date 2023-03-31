@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WeatherApp</title>
+    <script src="script.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+      @import url("https://fonts.googleapis.com/css2?family=Koulen&family=Ubuntu&family=Varela+Round&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Ubuntu", sans-serif;
+        scroll-behavior: smooth;
+        color-scheme: dark;
+      }
+      .card {
+        position: relative;
+      }
+      .card:hover::before,
+      .card:hover > .card-border {
+        opacity: 1;
+      }
+      .card::before,
+      .car > .card-border {
+        background: radial-gradient(
+          800px circle at var(--mouse-x) var(--mouse-y),
+          rgba(129, 140, 248, 0.1),
+          transparent 40%
+        );
+        border-radius: inherit;
+        content: "";
+        height: 100%;
+        opacity: 0;
+        transition: opacity 500ms;
+        left: 0px;
+        position: absolute;
+        top: 0px;
+        width: 100%;
+        z-index: 2;
+      }
+
+      .card::before {
+        background: radial-gradient(
+          800px circle at var(--mouse-x) var(--mouse-y),
+          rgba(255, 255, 255, 0.1),
+          transparent 40%
+        );
+        z-index: 3;
+      }
+      .card > .card-border {
+        background: radial-gradient(
+          400px circle at var(--mouse-x) var(--mouse-y),
+          rgb(255, 255, 255, 0.5),
+          transparent 40%
+        );
+        z-index: 1;
+      }
+      .card > .cardContent {
+        background-color: rgba(0, 0, 0, 0.39);
+        height: calc(100% - 3px);
+        width: calc(100% - 3px);
+        border-radius: inherit;
+        position: relative;
+        margin: 1px;
+        z-index: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="relative z-0 bg-stone-950 w-full h-screen">
+      <nav
+        class="flex flex-row flex-nowrap justify-between bg-red-700 w-full h-20 items-center p-5"
+      >
+        <div>
+          <h1 class="text-white text-[30px] font-bold tracking-tight">
+            | WS |
+          </h1>
+          <p class="text-stone-200 text-[14px] tracking-wide">
+            WeatherStation-Get Instant Weather
+          </p>
+        </div>
+
+        <div class="flex flex-row items-center">
+          <input
+            id="city"
+            type="text"
+            placeholder="Enter City Name"
+            class="rounded-l-full bg-stone-950 border-none outline-none pl-5 p-1"
+          />
+          <button
+            type="submit"
+            id="submit"
+            class="mouse-pointer rounded-r-full bg-white text-black pl-4 p-1 pr-4"
+          >
+            Search
+          </button>
+        </div>
+      </nav>
+      <h1 id="cityname" class="text-center p-5 m-1 text-[38px]"></h1>
+      <div class="flex flex-row justify-center gap-8 relative">
+        <div
+          class="card bg-stone-900 h-[500px] w-[350px] cursor-pointer rounded-2xl"
+        >
+          <div class="card-border"></div>
+          <div class="cardContent">
+            <div
+              class="cardContent-info items-center p-5 flex flex-col h-[450px] justify-between"
+            >
+              <h1
+                class="basis-1/4 font-bold tracking-tighter text-[28px] text-orange-500"
+              >
+                Temperature & Humidity
+              </h1>
+              <div
+                class="basis-3/4 flex flex-col justify-between items-center"
+              >
+                <p class="font-thin text-[14px] text-gray-400">
+                  Temp: <span class="text-white font-bold" id="temp"></span> Deg C
+                </p>
+                <p class="font-thin text-[14px] text-gray-400">
+                  Feels Like: <span class="text-white font-bold" id="feels_like"></span> Deg C
+                </p>
+                <p class="font-thin text-[14px] text-gray-400">
+                  Min-Temp: <span class="text-white font-bold" id="min_temp"></span> Deg C
+                </p>
+                <p class="font-thin text-[14px] text-gray-400">
+                  Max-Temp: <span class="text-white font-bold" id="max_temp"></span> Deg C
+                </p>
+                <p class="font-thin text-[14px] text-gray-400">
+                  Humidity: <span class="text-white font-bold" id="humidity"></span> %
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="card bg-stone-900 h-[500px] w-[350px] cursor-pointer rounded-2xl"
+        >
+          <div class="card-border"></div>
+          <div class="cardContent">
+            <div class="cardContent-info items-center p-5 flex flex-col h-[450px] justify-between">
+              <h1 class="basis-1/4 font-bold tracking-tighter text-[28px] text-cyan-400">Wind & Other's</h1>
+              <div class="basis-3/4 flex flex-col justify-between items-center">
+              <p class="font-thin text-[14px] text-gray-400">Wind Speed: <span class="text-white font-bold" id="wind_speed"></span> km/hr</p>
+              <p class="font-thin text-[14px] text-gray-400">Wind Direction: <span class="text-white font-bold" id="wind_degrees"></span> Deg</p>
+              <p class="font-thin text-[14px] text-gray-400">Sunrise:<span class="text-white font-bold" id="sunrise"></span></p>
+              <p class="font-thin text-[14px] text-gray-400">Sunset:<span class="text-white font-bold" id="sunset"></span></p>
+              <p class="font-thin text-[14px] text-gray-400">Cloud PCT: <span class="text-white font-bold" id="cloud_pct"></span></p>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
